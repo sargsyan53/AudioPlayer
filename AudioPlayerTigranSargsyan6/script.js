@@ -1,4 +1,4 @@
-//
+
 const data = {
     song: [
         "Musics/2Pac, Big Syke – All Eyez On Me.mp3",
@@ -113,3 +113,5 @@ song.addEventListener("timeupdate", function () {
             currentTime.textContent += " / " + min + ":" + sec
             
             };
+
+            //new function
