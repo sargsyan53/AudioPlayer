@@ -1,4 +1,4 @@
-
+//
 const data = {
     song: [
         "Musics/2Pac, Big Syke – All Eyez On Me.mp3",
