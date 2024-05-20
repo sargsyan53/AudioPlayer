@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Audio Player</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="main" id="main">
-
-    </div>
+    <div class="main" id="main"></div>
     <div class="player">
         <div class="row1">
-
+            <img id="disk" src="" alt="album cover">
         </div>
-        <div class="songtitle"> Title</div>
-<div class="artist">Artist Name</div>
-        
+        <div class="song-info">
+            <div class="songtitle">Title</div>
+            <div class="artist">Artist Name</div>
+        </div>
         <div class="row2">
-            <div class="play">
+            <div class="controls">
                 <img src="images/previous.png" alt="previous" id="pre" onclick="previousSong()">
-                <img src="images/play-button-arrowhead.png" alt="player" id="play"  onclick="playOrPauseSong()">
+                <img src="images/play-button-arrowhead.png" alt="play" id="play" onclick="playOrPauseSong()">
                 <img src="images/next-button.png" alt="next" id="next" onclick="nextSong()">
-                
             </div>
             <div class="seek-bar">
                 <div class="handle">
-                    <div id="fill">
-
-                    </div>
+                    <div id="fill"></div>
                 </div>
             </div>
             <div class="mute">
-                <div id="currentTime"> 00 : 00 / 00 : 00 </div >
+                <div id="currentTime">00:00 </div>
+                <div class="remainingTime">-00:00</div>
                 <div class="mutebuttons">
-                    <img src="images/increase-volume.png" alt="" id="inc" onclick="increaseVolume()">
-                    <img src="images/volume.png" alt="" id="mute" onclick="muteOrUnmute()">
-                    <img src="images/volume-down.png" alt="" id="dec" onclick="decreaseVolume()">
+                    <img src="images/increase-volume.png" alt="increase volume" id="inc" onclick="increaseVolume()">
+                    <img src="images/volume.png" alt="mute" id="mute" onclick="muteOrUnmute()">
+                    <img src="images/volume-down.png" alt="decrease volume" id="dec" onclick="decreaseVolume()">
                 </div>
+            </div>
+            <div class="like-button">
+                <img src="images/heart1.png" alt="like" id="like" onclick="toggleLike()">
             </div>
         </div>
     </div>
+    <div class="liked-list" id="liked-list">
+        <h1>Liked Songs</h1>
+    </div>
     <script src="script.js"></script>
 </body>
-
 </html>
