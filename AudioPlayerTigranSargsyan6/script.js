@@ -3,7 +3,7 @@ const data = {
         "Musics/2Pac, Big Syke – All Eyez On Me.mp3",
         "Musics/Eminem – Mockingbird.mp3",
         "Musics/Miyagi, Kadi – Radnaya Poy.mp3"
-    ], 
+    ],
     title: [
         "All Eyez On Me",
         "Mockingbird",
@@ -36,29 +36,50 @@ function playSong() {
     document.querySelector("#disk").src = data.poster[currentSong];
     document.querySelector(".main").style.backgroundImage = "url(" + data.poster[currentSong] + ")";
     song.play();
+
+    // Check if the current song is liked and update the like button accordingly
+    let likeButton = document.getElementById("like");
+    let currentSongData = {
+        song: data.song[currentSong],
+        title: data.title[currentSong],
+        artist: data.artist[currentSong],
+        poster: data.poster[currentSong]
+    };
+    let songIndex = likedSongs.findIndex(song => song.song === currentSongData.song);
+    if (songIndex !== -1) {
+        likeButton.src = "images/heart.png";
+    } else {
+        likeButton.src = "images/heart1.png";
+    }
 }
+
 
 function playOrPauseSong() {
     let playButton = document.getElementById("play");
     if (song.paused) {
         song.play();
-        playButton.src = "images/pause.png"; 
+        playButton.src = "images/pause.png";
     } else {
         song.pause();
-        playButton.src = "images/play-button-arrowhead.png"; 
+        playButton.src = "images/play-button-arrowhead.png";
     }
 }
 
 function nextSong() {
     currentSong = (currentSong + 1) % data.song.length;
     document.getElementById("play").src = "images/pause.png";
-    playSong();
+    let likeButton = document.getElementById("like");
+    likeButton.src = "images/heart1.png";
+    playSong()
 }
 
 function previousSong() {
     currentSong = (currentSong - 1 + data.song.length) % data.song.length;
     document.getElementById("play").src = "images/pause.png";
+    let likeButton = document.getElementById("like");
+    likeButton.src = "images/heart1.png";
     playSong();
+
 }
 
 function muteOrUnmute() {
@@ -97,13 +118,13 @@ function toggleLike() {
 
 function updateLikedList() {
     let likedList = document.getElementById("liked-list");
-    likedList.innerHTML = ""; 
+    likedList.innerHTML = "";
 
     likedSongs.forEach(song => {
         let songElement = document.createElement("div");
         songElement.classList.add("liked-song");
         songElement.textContent = song.title + " - " + song.artist;
-        songElement.addEventListener("click", function() {
+        songElement.addEventListener("click", function () {
             playLikedSong(song.song, song.title, song.artist, song.poster);
         });
         likedList.appendChild(songElement);
@@ -134,28 +155,57 @@ function convertTime(seconds) {
     min = (min < 10) ? "0" + min : min;
     sec = (sec < 10) ? "0" + sec : sec;
     currentTime.textContent = min + ":" + sec;
-    
+
     // Update remaining time
-    let remainingTime = document.getElementById("remainingTime");
+    let remainingTime = document.getElementsByClassName("remainingTime");
     let totalSeconds = Math.floor(song.duration);
     let remainingSeconds = totalSeconds - Math.floor(seconds);
     let remainingMin = Math.floor(remainingSeconds / 60);
-    let remainingSec = remainingSeconds % 60;
+    let remainingSec = Math.floor(remainingSeconds % 60);
     remainingMin = (remainingMin < 10) ? "0" + remainingMin : remainingMin;
     remainingSec = (remainingSec < 10) ? "0" + remainingSec : remainingSec;
-    remainingTime.textContent = "-" + remainingMin + ":" + remainingSec;
-    
+    remainingTime[0].textContent = "-" + remainingMin + ":" + remainingSec;
+
     // Update interval time
-    let intervalTime = document.getElementById("intervalTime");
-    let intervalSeconds = Math.floor(seconds);
-    let intervalMin = Math.floor(intervalSeconds / 60);
-    let intervalSec = intervalSeconds % 60;
-    intervalMin = (intervalMin < 10) ? "0" + intervalMin : intervalMin;
-    intervalSec = (intervalSec < 10) ? "0" + intervalSec : intervalSec;
-    intervalTime.textContent = intervalMin + ":" + intervalSec;
+
 }
 
+
 // Update time every second
-setInterval(function() {
+setInterval(function () {
     convertTime(song.currentTime);
 }, 1000);
+
+document.querySelector(".handle").addEventListener("click", function (event) {
+    let handleWidth = this.offsetWidth;
+    let clickX = event.clientX - this.getBoundingClientRect().left;
+    let position = clickX / handleWidth;
+    song.currentTime = position * song.duration;
+    let fill = document.getElementById("fill");
+    fill.style.width = position * 100 + "%";
+});
+
+function addNewSong() {
+    let newArtist = document.getElementById("new-artist").value;
+    let newTitle = document.getElementById("new-title").value;
+    let newBackground = document.getElementById("new-background").value;
+    let newSong = document.getElementById("new-song").value;
+
+    if (newArtist && newTitle && newBackground && newSong) {
+        data.song.push(newSong);
+        data.title.push(newTitle);
+        data.poster.push(newBackground);
+        data.artist.push(newArtist);
+
+        // Clear input fields
+        document.getElementById("new-artist").value = "";
+        document.getElementById("new-title").value = "";
+        document.getElementById("new-background").value = "";
+        document.getElementById("new-song").value = "";
+
+        // Optional: Provide feedback to the user
+        alert("Song added successfully!");
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
